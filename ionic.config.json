@@ -1,0 +1,7 @@
+{
+  "name": "BlueCodingTest",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
