@@ -1,0 +1,19 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      GIF History
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="false">
+  <ion-card *ngIf="history && history.length" >
+    <ion-list>
+      <ion-item *ngFor="let item of history" (click)="removeWord(item.id)"  >
+        <ion-label>{{item.searchKey}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-card>
+</ion-content>
