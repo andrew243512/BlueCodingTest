@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { GifState } from './shared/state/gift.state';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -25,9 +26,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     NgxsRouterPluginModule.forRoot(),
     NgxsModule.forRoot(),
-    // NgxsModule.forRoot([State], {
-    //   developmentMode: !environment.production,
-    // }),
+    NgxsModule.forRoot([GifState], {
+      developmentMode: !environment.production,
+    }),
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production,
       logger: console,

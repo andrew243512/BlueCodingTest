@@ -12,8 +12,10 @@
   <ion-card *ngIf="history && history.length" >
     <ion-list>
       <ion-item *ngFor="let item of history" (click)="removeWord(item.id)"  >
-        <ion-label>{{item.searchKey}}</ion-label>
+        <ion-label>{{item.payload}}</ion-label>
       </ion-item>
     </ion-list>
   </ion-card>
+  <ion-label *ngIf="!history || history.length === 0" >Nothing to show, please search for something else</ion-label>
+
 </ion-content>

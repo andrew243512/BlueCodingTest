@@ -1,10 +1,10 @@
+import { SearchGIF } from './../shared/actions/gift.actions';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
+import { Store } from '@ngxs/store';
 import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { DisplayGifComponent } from '../components/display-gif/display-gif.component';
-import { GiphyApiService } from '../services/giphy-api/giphy-api.service';
 
 @Component({
   selector: 'app-home',
@@ -15,15 +15,25 @@ export class HomePage {
   subscriptionHandler: Subscription;
   gifList = [];
   searchForm: FormGroup;
+  private loading: any;
   constructor(
-    private api: GiphyApiService,
     private formBuilder: FormBuilder,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private store: Store,
+    public loadingController: LoadingController
   ) { }
 
 
   ngOnInit() {
     this.searchForm = this.buildForm();
+    this.store.select(state => state.gifs.gifs).subscribe((res : any) => {
+      if(!!res){
+        this.gifList = res;
+      }
+      this.dismissLoader();
+    }, error => {
+      this.dismissLoader();
+    });
   }
 
   ngOnDestroy() {
@@ -42,24 +52,8 @@ export class HomePage {
     if (this.searchForm && this.searchForm.valid) {
       const searchKey = this.searchForm.controls && this.searchForm.controls['name'] && this.searchForm.controls['name'].value;
       if (searchKey) {
-        this.subscriptionHandler = this.api.searchGIF(searchKey).subscribe(data => {
-          this.gifList = data.map(res=>{
-            res.gif = res.images && res.images.original && res.images.original.url
-            ? res.images.original.url
-            : 'https://developers.giphy.com/branch/master/static/header-logo-0fec0225d189bc0eae27dac3e3770582.gif';
-            return res;
-          });
-          let historyList = [];
-          const searchesHistory = localStorage.getItem(environment.DB_TABLE);
-          if (searchesHistory && searchesHistory.length) {
-            historyList = JSON.parse(searchesHistory)
-          }
-          historyList.push({searchKey, id: (Math.random()).toString()});
-          localStorage.setItem(environment.DB_TABLE, JSON.stringify(historyList))
-          console.log(this.gifList)
-        }, err => {
-          console.log(err)
-        });
+        this.presentLoading();
+        this.store.dispatch(new SearchGIF(searchKey))
       }
     }
   }
@@ -77,5 +71,19 @@ export class HomePage {
       }
     });
     return await modal.present();
+  }
+
+  async presentLoading() {
+    this.loading = await this.loadingController.create({
+      spinner: 'circular',
+      message: 'Please wait...',
+    });
+    await this.loading.present();
+  }
+
+  public async dismissLoader(): Promise<void> {
+    if (this.loading) {
+      await this.loading.dismiss();
+    }
   }
 }

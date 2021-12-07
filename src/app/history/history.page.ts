@@ -1,5 +1,7 @@
 import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { GetHistoryGIF, RemoveGIF } from '../shared/actions/gift.actions';
 
 @Component({
   selector: 'app-history',
@@ -8,16 +10,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HistoryPage implements OnInit {
   history: any[];
-  constructor() { }
+  constructor(
+    private store: Store
+  ) {
+  }
 
   ngOnInit() {
-    this.history = JSON.parse(localStorage.getItem(environment.DB_TABLE));
+    this.store.dispatch(new GetHistoryGIF())
+    this.store.select(state => state.gifs.history).subscribe((res : any) => {
+      this.history = res;
+    })
   }
 
   removeWord(id: any){
-    const history = this.history.filter((data: any) => data.id !== id)
-    localStorage.setItem(environment.DB_TABLE, JSON.stringify(history))
-    this.history = history;
+    this.store.dispatch(new RemoveGIF(id))
   }
 
 }

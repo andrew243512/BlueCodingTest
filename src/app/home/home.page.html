@@ -35,6 +35,7 @@
         </form>
       </ion-card-content>
     </ion-card>
+    <ion-label *ngIf="!gifList || gifList.length === 0" >Nothing to show, please search for something else</ion-label>
     <ion-card *ngIf="gifList && gifList.length" >
       <ion-list>
         <ion-list-header>
@@ -42,7 +43,7 @@
         </ion-list-header>
         <ion-item *ngFor="let item of gifList" (click)="openGifDetail(item)"  >
           <ion-thumbnail  slot="start">
-            <img [src]="item.gif" />
+            <img [src]="item.url" />
           </ion-thumbnail>
           <ion-label>{{item?.title}}</ion-label>
           <ion-label>{{item?.source_tld}}</ion-label>

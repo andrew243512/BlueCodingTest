@@ -24,3 +24,11 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+ion-content{
+    --padding-start: 5px;
+    --padding-end: 5px;
+    --padding-bottom: 0px;
+    --padding-top: 1px;
+  }
