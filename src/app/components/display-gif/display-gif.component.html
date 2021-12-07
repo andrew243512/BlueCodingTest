@@ -1,0 +1,11 @@
+<ion-backdrop></ion-backdrop>
+<ion-card>
+  <ion-card-header>
+    {{seletedGif.title}}
+  </ion-card-header>
+  <ion-card-content>
+    <img [src]="seletedGif.gif" />
+    <ion-label>{{seletedGif?.username}}</ion-label>
+    <p>{{seletedGif?.rating}}</p>
+  </ion-card-content>
+</ion-card>
