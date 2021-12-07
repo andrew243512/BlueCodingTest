@@ -11,18 +11,23 @@ import { NgxsModule } from '@ngxs/store';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { environment } from 'src/environments/environment';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
+    HttpClientModule,
     NgxsRouterPluginModule.forRoot(),
-    NgxsModule.forRoot([State], {
-      developmentMode: !environment.production,
-    }),
+    NgxsModule.forRoot(),
+    // NgxsModule.forRoot([State], {
+    //   developmentMode: !environment.production,
+    // }),
     NgxsLoggerPluginModule.forRoot({
       disabled: environment.production,
       logger: console,

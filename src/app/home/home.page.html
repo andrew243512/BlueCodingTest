@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Blank
+      GIF Store
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,12 +9,46 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+      <ion-title size="large">GIF Store</ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card>
+      <ion-card-content>
+        <form [formGroup]="searchForm" (ngSubmit)="searchGIF()">
+          <ion-grid fixed>
+            <ion-row>
+              <ion-col size="9">
+                <ion-item padding-bottom class="m-a">
+                  <ion-input class="input" class="m-a ion-text-center" required color="dark" margin-top type="text"
+                    placeholder="keyword search" formControlName="name">
+                  </ion-input>
+                </ion-item>
+              </ion-col>
+              <ion-col size="3">
+                <ion-button color="primary" padding-right padding-left class="button button-generic" type="submit" size="large"
+                  expand="full">
+                  <p class="button-login" padding-top padding-bottom color="light">Search</p>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </form>
+      </ion-card-content>
+    </ion-card>
+    <ion-card *ngIf="gifList && gifList.length" >
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Results</ion-label>
+        </ion-list-header>
+        <ion-item *ngFor="let item of gifList" (click)="openGifDetail(item)"  >
+          <ion-thumbnail  slot="start">
+            <img [src]="item.gif" />
+          </ion-thumbnail>
+          <ion-label>{{item?.title}}</ion-label>
+          <ion-label>{{item?.source_tld}}</ion-label>
+        </ion-item>
+      </ion-list>
+      
+    </ion-card>
+  
 </ion-content>
